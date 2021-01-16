@@ -18,9 +18,9 @@
 package com.github.zlzhang0122.ispark.util
 
 import java.io.IOException
-import java.net.BindException
+import java.net.{BindException, URI}
 
-import com.github.zlzhang0122.ispark.{SparkRpcConf, SparkRpcException}
+import com.github.zlzhang0122.ispark.{ISparkRpcConf, ISparkRpcException}
 import io.netty.channel.unix.Errors.NativeIoException
 import org.apache.spark.network.util.JavaUtils
 import org.slf4j.LoggerFactory
@@ -119,9 +119,9 @@ object Utils {
     * A spark url (`spark://host:port`) is a special URI that its scheme is `spark` and only contains
     * host and port.
     *
-    * @throws SparkRpcException if sparkUrl is invalid.
+    * @throws ISparkRpcException if sparkUrl is invalid.
     */
-  @throws(classOf[SparkRpcException])
+  @throws(classOf[ISparkRpcException])
   def extractHostPortFromIsparkRpcUrl(sparkUrl: String): (String, Int) = {
     try {
       val uri = new java.net.URI(sparkUrl)
@@ -134,19 +134,19 @@ object Utils {
         uri.getFragment != null ||
         uri.getQuery != null ||
         uri.getUserInfo != null) {
-        throw new SparkRpcException("Invalid URL: " + sparkUrl)
+        throw new ISparkRpcException("Invalid URL: " + sparkUrl)
       }
       (host, port)
     } catch {
       case e: java.net.URISyntaxException =>
-        throw new SparkRpcException("Invalid URL: " + sparkUrl, e)
+        throw new ISparkRpcException("Invalid URL: " + sparkUrl, e)
     }
   }
 
   /**
     * Maximum number of retries when binding to a port before giving up.
     */
-  def portMaxRetries(conf: SparkRpcConf): Int = {
+  def portMaxRetries(conf: ISparkRpcConf): Int = {
     val maxRetries = conf.getOption("spark.port.maxRetries").map(_.toInt)
     if (conf.contains("spark.testing")) {
       // Set a higher number of retries for tests...
@@ -190,7 +190,7 @@ object Utils {
   def startServiceOnPort[T](
                              startPort: Int,
                              startService: Int => (T, Int),
-                             conf: SparkRpcConf,
+                             conf: ISparkRpcConf,
                              serviceName: String = ""): (T, Int) = {
 
     require(startPort == 0 || (1024 <= startPort && startPort < 65536),
@@ -227,7 +227,7 @@ object Utils {
       }
     }
     // Should never happen
-    throw new SparkRpcException(s"Failed to start service$serviceString on port $startPort")
+    throw new ISparkRpcException(s"Failed to start service$serviceString on port $startPort")
   }
 
   /**
@@ -249,4 +249,17 @@ object Utils {
     }
   }
 
+  /**
+    * A file name may contain some invalid URI characters, such as " ". This method will convert the
+    * file name to a raw path accepted by `java.net.URI(String)`.
+    *
+    * Note: the file name must not contain "/" or "\"
+    */
+  def encodeFileNameToURIRawPath(fileName: String): String = {
+    require(!fileName.contains("/") && !fileName.contains("\\"))
+    // `file` and `localhost` are not used. Just to prevent URI from parsing `fileName` as
+    // scheme or host. The prefix "/" is required because URI doesn't accept a relative path.
+    // We should remove it after we get the raw path.
+    new URI("file", null, "localhost", -1, "/" + fileName, null, null).getRawPath.substring(1)
+  }
 }

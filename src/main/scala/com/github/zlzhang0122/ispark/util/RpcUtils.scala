@@ -17,7 +17,7 @@
 
 package com.github.zlzhang0122.ispark.util
 
-import com.github.zlzhang0122.ispark.SparkRpcConf
+import com.github.zlzhang0122.ispark.ISparkRpcConf
 import com.github.zlzhang0122.ispark.rpc.{RpcAddress, RpcEndpointRef, RpcEnv, RpcTimeout}
 
 private[spark] object RpcUtils {
@@ -25,7 +25,7 @@ private[spark] object RpcUtils {
   /**
    * Retrieve a `RpcEndpointRef` which is located in the driver via its name.
    */
-  def makeDriverRef(name: String, conf: SparkRpcConf, rpcEnv: RpcEnv): RpcEndpointRef = {
+  def makeDriverRef(name: String, conf: ISparkRpcConf, rpcEnv: RpcEnv): RpcEndpointRef = {
     val driverHost: String = conf.get("spark.driver.host", "localhost")
     val driverPort: Int = conf.getInt("spark.driver.port", 7077)
     Utils.checkHost(driverHost)
@@ -33,29 +33,29 @@ private[spark] object RpcUtils {
   }
 
   /** Returns the configured number of times to retry connecting */
-  def numRetries(conf: SparkRpcConf): Int = {
+  def numRetries(conf: ISparkRpcConf): Int = {
     conf.getInt("spark.rpc.numRetries", 3)
   }
 
   /** Returns the configured number of milliseconds to wait on each retry */
-  def retryWaitMs(conf: SparkRpcConf): Long = {
+  def retryWaitMs(conf: ISparkRpcConf): Long = {
     conf.getTimeAsMs("spark.rpc.retry.wait", "3s")
   }
 
   /** Returns the default Spark timeout to use for RPC ask operations. */
-  def askRpcTimeout(conf: SparkRpcConf): RpcTimeout = {
+  def askRpcTimeout(conf: ISparkRpcConf): RpcTimeout = {
     RpcTimeout(conf, Seq("spark.rpc.askTimeout", "spark.network.timeout"), "120s")
   }
 
   /** Returns the default Spark timeout to use for RPC remote endpoint lookup. */
-  def lookupRpcTimeout(conf: SparkRpcConf): RpcTimeout = {
+  def lookupRpcTimeout(conf: ISparkRpcConf): RpcTimeout = {
     RpcTimeout(conf, Seq("spark.rpc.lookupTimeout", "spark.network.timeout"), "120s")
   }
 
   private val MAX_MESSAGE_SIZE_IN_MB = Int.MaxValue / 1024 / 1024
 
   /** Returns the configured max message size for messages in bytes. */
-  def maxMessageSizeBytes(conf: SparkRpcConf): Int = {
+  def maxMessageSizeBytes(conf: ISparkRpcConf): Int = {
     val maxSizeInMB = conf.getInt("spark.rpc.message.maxSize", 128)
     if (maxSizeInMB > MAX_MESSAGE_SIZE_IN_MB) {
       throw new IllegalArgumentException(

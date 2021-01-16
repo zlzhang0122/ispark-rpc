@@ -22,7 +22,14 @@ import com.github.zlzhang0122.ispark.util.Utils
 
 import scala.collection.JavaConverters._
 
-case class SparkRpcConf(loadDefaults: Boolean = true) extends Cloneable with Serializable {
+/**
+  * Config set and get
+  *
+  * @param loadDefaults
+  * @Author: zlzhang0122
+  * @Date: 2021/1/16 2:05 下午
+  */
+case class ISparkRpcConf(loadDefaults: Boolean = true) extends Cloneable with Serializable {
 
   /** Create a RpcConf that loads defaults from system properties and the classpath */
   def this() = this(true)
@@ -31,7 +38,7 @@ case class SparkRpcConf(loadDefaults: Boolean = true) extends Cloneable with Ser
 
   loadFromSystemProperties(false)
 
-  def loadFromSystemProperties(silent: Boolean): SparkRpcConf = {
+  def loadFromSystemProperties(silent: Boolean): ISparkRpcConf = {
     // Load any spark.* system properties
     for ((key, value) <- Utils.getSystemProperties if key.startsWith("spark.")) {
       set(key, value)
@@ -40,13 +47,13 @@ case class SparkRpcConf(loadDefaults: Boolean = true) extends Cloneable with Ser
   }
 
   /** Set a configuration variable. */
-  def set(key: String, value: String): SparkRpcConf = {
+  def set(key: String, value: String): ISparkRpcConf = {
     settings.put(key, value)
     this
   }
 
   /** Remove a parameter from the configuration */
-  def remove(key: String): SparkRpcConf = {
+  def remove(key: String): ISparkRpcConf = {
     settings.remove(key)
     this
   }
@@ -234,7 +241,7 @@ case class SparkRpcConf(loadDefaults: Boolean = true) extends Cloneable with Ser
   }
 
   /** Set a parameter if it isn't already configured */
-  def setIfMissing(key: String, value: String): SparkRpcConf = {
+  def setIfMissing(key: String, value: String): ISparkRpcConf = {
     settings.putIfAbsent(key, value)
     this
   }

@@ -14,11 +14,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.zlzhang0122.ispark
 
-class SparkRpcException(message: String, cause: Throwable)
-  extends Exception(message, cause) {
+package com.github.zlzhang0122.ispark.rpc
 
-  def this(message: String) = this(message, null)
+/**
+  * A callback that [[RpcEndpoint]] can use to send back a message or failure. It's thread-safe
+  * and can be called in any thread.
+  *
+  * @Author: zlzhang0122
+  * @Date: 2021/1/16 3:05 下午
+  */
+private[spark] trait RpcCallContext {
+
+  /**
+    * Reply a message to the sender. If the sender is [[RpcEndpoint]], its [[RpcEndpoint.receive]]
+    * will be called.
+    */
+  def reply(response: Any): Unit
+
+  /**
+    * Report a failure to the sender.
+    */
+  def sendFailure(e: Throwable): Unit
+
+  /**
+    * The sender of this message.
+    */
+  def senderAddress: RpcAddress
 }
-

@@ -34,7 +34,7 @@ import scala.reflect.ClassTag
   *
   * Implementations of this trait should implement:
   *
-  * 1. a zero-arg constructor or a constructor that accepts a [[com.github.zlzhang0122.ispark.SparkRpcConf]]
+  * 1. a zero-arg constructor or a constructor that accepts a [[com.github.zlzhang0122.ispark.ISparkRpcConf]]
   * as parameter. If both constructors are defined, the latter takes precedence.
   *
   * 2. Java serialization interface.

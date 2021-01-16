@@ -19,7 +19,7 @@ package com.github.zlzhang0122.ispark.serailizer
 import java.io._
 import java.nio.ByteBuffer
 
-import com.github.zlzhang0122.ispark.SparkRpcConf
+import com.github.zlzhang0122.ispark.ISparkRpcConf
 import com.github.zlzhang0122.ispark.util.{ByteBufferInputStream, ByteBufferOutputStream, Utils}
 import org.apache.spark.annotation.DeveloperApi
 import org.nustaq.serialization.FSTConfiguration
@@ -226,11 +226,11 @@ class JavaSerializerInstance(counterReset: Int, extraDebugInfo: Boolean, default
   *       Spark application.
   */
 @DeveloperApi
-class JavaSerializer(conf: SparkRpcConf) extends Serializer with Externalizable {
+class JavaSerializer(conf: ISparkRpcConf) extends Serializer with Externalizable {
   private var counterReset = conf.getInt("spark.serializer.objectStreamReset", 100)
   private var extraDebugInfo = conf.getBoolean("spark.serializer.extraDebugInfo", true)
 
-  protected def this() = this(new SparkRpcConf()) // For deserialization only
+  protected def this() = this(new ISparkRpcConf()) // For deserialization only
 
   override def newInstance(): SerializerInstance = {
     val classLoader = defaultClassLoader.getOrElse(Thread.currentThread.getContextClassLoader)
