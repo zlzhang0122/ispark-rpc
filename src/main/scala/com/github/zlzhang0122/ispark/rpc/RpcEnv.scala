@@ -32,7 +32,7 @@ import scala.concurrent.Future
   * @Author: zlzhang0122
   * @Date: 2021/1/16 3:17 下午
   */
-private[spark] object RpcEnv {
+object RpcEnv {
 
   def create(
               name: String,
@@ -69,9 +69,9 @@ private[spark] object RpcEnv {
   *
   * [[RpcEnv]] also provides some methods to retrieve [[RpcEndpointRef]]s given name or uri.
   */
-private[spark] abstract class RpcEnv(conf: ISparkRpcConf) {
+abstract class RpcEnv(conf: ISparkRpcConf) {
 
-  private[spark] val defaultLookupTimeout = RpcUtils.lookupRpcTimeout(conf)
+  val defaultLookupTimeout = RpcUtils.lookupRpcTimeout(conf)
 
   /**
     * Return RpcEndpointRef of the registered [[RpcEndpoint]]. Will be used to implement

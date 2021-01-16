@@ -23,7 +23,6 @@ import java.nio.ByteBuffer
 /**
  * Reads data from a ByteBuffer.
  */
-private[spark]
 class ByteBufferInputStream(private var buffer: ByteBuffer)
   extends InputStream {
 

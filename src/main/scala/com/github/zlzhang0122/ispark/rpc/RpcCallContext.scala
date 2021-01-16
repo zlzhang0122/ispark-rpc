@@ -24,7 +24,7 @@ package com.github.zlzhang0122.ispark.rpc
   * @Author: zlzhang0122
   * @Date: 2021/1/16 3:05 下午
   */
-private[spark] trait RpcCallContext {
+trait RpcCallContext {
 
   /**
     * Reply a message to the sender. If the sender is [[RpcEndpoint]], its [[RpcEndpoint.receive]]

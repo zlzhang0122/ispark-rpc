@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory
   * @Author: zlzhang0122
   * @Date: 2021/1/16 3:19 下午
   */
-private[spark] abstract class RpcEndpointRef(conf: ISparkRpcConf)
+abstract class RpcEndpointRef(conf: ISparkRpcConf)
   extends Serializable {
 
   private val log = LoggerFactory.getLogger(classOf[RpcEndpointRef])

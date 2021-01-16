@@ -55,9 +55,7 @@ object ISparkRpcTransportConf {
     new TransportConf(module, new ConfigProvider {
       override def get(name: String): String = conf.get(name)
 
-      override def getAll(): java.lang.Iterable[java.util.Map.Entry[String, String]] = {
-        conf.getAll.toMap.asJava.entrySet()
-      }
+      override def getAll(): java.lang.Iterable[java.util.Map.Entry[String, String]] = null
     })
   }
 

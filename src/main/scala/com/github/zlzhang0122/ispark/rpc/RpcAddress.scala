@@ -25,7 +25,7 @@ import com.github.zlzhang0122.ispark.util.Utils
   * @Author: zlzhang0122
   * @Date: 2021/1/16 3:02 下午
   */
-private[spark] case class RpcAddress(host: String, port: Int) {
+case class RpcAddress(host: String, port: Int) {
 
   def hostPort: String = host + ":" + port
 
@@ -36,7 +36,7 @@ private[spark] case class RpcAddress(host: String, port: Int) {
 }
 
 
-private[spark] object RpcAddress {
+object RpcAddress {
 
   /** Return the [[RpcAddress]] represented by `uri`. */
   def fromURIString(uri: String): RpcAddress = {

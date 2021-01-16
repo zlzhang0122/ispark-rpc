@@ -30,7 +30,7 @@ import scala.concurrent.{Awaitable, ExecutionContext, ExecutionContextExecutor, 
 import scala.language.higherKinds
 import scala.util.control.NonFatal
 
-private[spark] object ThreadUtils {
+object ThreadUtils {
 
   private val sameThreadExecutionContext =
     ExecutionContext.fromExecutorService(MoreExecutors.sameThreadExecutor())

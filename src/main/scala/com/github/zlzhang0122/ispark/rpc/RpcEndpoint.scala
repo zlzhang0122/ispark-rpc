@@ -26,7 +26,7 @@ import com.github.zlzhang0122.ispark.ISparkRpcException
   * @Author: zlzhang0122
   * @Date: 2021/1/16 3:09 下午
   */
-private[spark] trait RpcEnvFactory {
+trait RpcEnvFactory {
 
   def create(config: RpcEnvConfig): RpcEnv
 }
@@ -46,7 +46,7 @@ private[spark] trait RpcEnvFactory {
   * If any error is thrown from one of [[RpcEndpoint]] methods except `onError`, `onError` will be
   * invoked with the cause. If `onError` throws an error, [[RpcEnv]] will ignore it.
   */
-private[spark] trait RpcEndpoint {
+trait RpcEndpoint {
 
   /**
     * The [[RpcEnv]] that this [[RpcEndpoint]] is registered to.
@@ -148,5 +148,5 @@ private[spark] trait RpcEndpoint {
   * However, there is no guarantee that the same thread will be executing the same
   * [[ThreadSafeRpcEndpoint]] for different messages.
   */
-private[spark] trait ThreadSafeRpcEndpoint extends RpcEndpoint
+trait ThreadSafeRpcEndpoint extends RpcEndpoint
 

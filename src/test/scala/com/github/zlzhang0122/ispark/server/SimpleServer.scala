@@ -42,7 +42,7 @@ object RpcServerTest {
       val future: Future[String] = helloEndpointRef.ask[String](SayHello("abc"))
       future.onComplete {
         case scala.util.Success(value) => println(s"client got result => $value")
-        case scala.util.Failure(e) => e.printStackTrace
+        case scala.util.Failure(e) => e.printStackTrace()
       }
     }
     Await.result(f, Duration.apply("240s"))

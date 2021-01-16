@@ -20,7 +20,7 @@ package com.github.zlzhang0122.ispark.util
 import com.github.zlzhang0122.ispark.ISparkRpcConf
 import com.github.zlzhang0122.ispark.rpc.{RpcAddress, RpcEndpointRef, RpcEnv, RpcTimeout}
 
-private[spark] object RpcUtils {
+object RpcUtils {
 
   /**
    * Retrieve a `RpcEndpointRef` which is located in the driver via its name.

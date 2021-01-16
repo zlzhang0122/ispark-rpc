@@ -29,7 +29,7 @@ import com.github.zlzhang0122.ispark.ISparkRpcException
   *                   an endpoint in a client `NettyRpcEnv`.
   * @param name Name of the endpoint.
   */
-private[spark] case class RpcEndpointAddress(rpcAddress: RpcAddress, name: String) {
+case class RpcEndpointAddress(rpcAddress: RpcAddress, name: String) {
 
   require(name != null, "RpcEndpoint name must be provided.")
 
@@ -44,7 +44,7 @@ private[spark] case class RpcEndpointAddress(rpcAddress: RpcAddress, name: Strin
   }
 }
 
-private[spark] object RpcEndpointAddress {
+object RpcEndpointAddress {
 
   def apply(host: String, port: Int, name: String): RpcEndpointAddress = {
     new RpcEndpointAddress(host, port, name)
