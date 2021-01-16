@@ -313,7 +313,7 @@ private[netty] object NettyRpcEnv {
 
 }
 
-private[rpc] class NettyRpcEnvFactory extends RpcEnvFactory {
+object NettyRpcEnvFactory extends RpcEnvFactory {
 
   def create(config: RpcEnvConfig): RpcEnv = {
     val conf = config.conf

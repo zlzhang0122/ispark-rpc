@@ -53,9 +53,9 @@ private[spark] object RpcEnv {
               securityManager: SecurityManager,
               numUsableCores: Int,
               clientMode: Boolean): RpcEnv = {
-    val config = RpcEnvConfig(conf, name, bindAddress, advertiseAddress, port, securityManager,
-      numUsableCores, clientMode)
-    new NettyRpcEnvFactory().create(config)
+    val config = RpcEnvCustomConfig(conf, name, bindAddress, advertiseAddress, port,
+      securityManager, numUsableCores, clientMode)
+    NettyRpcEnvFactory.create(config)
   }
 }
 
@@ -135,58 +135,60 @@ private[spark] abstract class RpcEnv(conf: ISparkRpcConf) {
   def deserialize[T](deserializationAction: () => T): T
 }
 
-/**
-  * A server used by the RpcEnv to server files to other processes owned by the application.
-  *
-  * The file server can return URIs handled by common libraries (such as "http" or "hdfs"), or
-  * it can return "spark" URIs which will be handled by `RpcEnv#fetchFile`.
-  */
-private[spark] trait RpcEnvFileServer {
+abstract class RpcEnvConfig() {
+  def conf: ISparkRpcConf
 
-  /**
-    * Adds a file to be served by this RpcEnv. This is used to serve files from the driver
-    * to executors when they're stored on the driver's local file system.
-    *
-    * @param file Local file to serve.
-    * @return A URI for the location of the file.
-    */
-  def addFile(file: File): String
+  def name: String
 
-  /**
-    * Adds a jar to be served by this RpcEnv. Similar to `addFile` but for jars added using
-    * `SparkContext.addJar`.
-    *
-    * @param file Local file to serve.
-    * @return A URI for the location of the file.
-    */
-  def addJar(file: File): String
+  def bindAddress: String
 
-  /**
-    * Adds a local directory to be served via this file server.
-    *
-    * @param baseUri Leading URI path (files can be retrieved by appending their relative
-    *                path to this base URI). This cannot be "files" nor "jars".
-    * @param path Path to the local directory.
-    * @return URI for the root of the directory in the file server.
-    */
-  def addDirectory(baseUri: String, path: File): String
+  def advertiseAddress: String
 
-  /** Validates and normalizes the base URI for directories. */
-  protected def validateDirectoryUri(baseUri: String): String = {
-    val fixedBaseUri = "/" + baseUri.stripPrefix("/").stripSuffix("/")
-    require(fixedBaseUri != "/files" && fixedBaseUri != "/jars",
-      "Directory URI cannot be /files nor /jars.")
-    fixedBaseUri
-  }
+  def port: Int
 
+  def securityManager: SecurityManager
+
+  def numUsableCores: Int
+
+  def clientMode: Boolean
 }
 
-private[spark] case class RpcEnvConfig(conf: ISparkRpcConf,
-                                       name: String,
-                                       bindAddress: String,
-                                       advertiseAddress: String,
-                                       port: Int,
-                                       securityManager: SecurityManager,
-                                       numUsableCores: Int,
-                                       clientMode: Boolean)
+case class RpcEnvCustomConfig(conf: ISparkRpcConf,
+                              name: String,
+                              bindAddress: String,
+                              advertiseAddress: String,
+                              port: Int,
+                              securityManager: SecurityManager,
+                              numUsableCores: Int,
+                              clientMode: Boolean
+                             ) extends RpcEnvConfig;
+
+case class RpcEnvServerConfig(conf: ISparkRpcConf,
+                              name: String,
+                              bindAddress: String,
+                              port: Int
+                             ) extends RpcEnvConfig {
+  override def advertiseAddress: String = bindAddress
+
+  override def numUsableCores: Int = 2
+
+  override def clientMode: Boolean = false
+
+  override def securityManager: SecurityManager = null
+}
+
+case class RpcEnvClientConfig(conf: ISparkRpcConf,
+                              name: String) extends RpcEnvConfig {
+  override def bindAddress: String = null
+
+  override def advertiseAddress: String = null
+
+  override def port: Int = 0
+
+  override def numUsableCores: Int = 2
+
+  override def clientMode: Boolean = true
+
+  override def securityManager: SecurityManager = null
+}
 
