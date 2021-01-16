@@ -17,7 +17,13 @@
 
 package com.github.zlzhang0122.ispark.util
 
-/** Provides a basic/boilerplate Iterator implementation. */
+/**
+  * Provides a basic/boilerplate Iterator implementation.
+  *
+  * @tparam U
+  * @Author: zlzhang0122
+  * @Date: 2021/1/16 2:35 下午
+  */
 private[spark] abstract class NextIterator[U] extends Iterator[U] {
 
   private var gotNext = false

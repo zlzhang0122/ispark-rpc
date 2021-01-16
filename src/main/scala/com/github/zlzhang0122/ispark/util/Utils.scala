@@ -28,6 +28,12 @@ import org.slf4j.LoggerFactory
 import scala.collection.JavaConverters._
 import scala.util.control.NonFatal
 
+/**
+  * Utils for spark rpc
+  *
+  * @Author: zlzhang0122
+  * @Date: 2021/1/16 2:55 下午
+  */
 object Utils {
 
   private val log = LoggerFactory.getLogger(Utils.getClass)
