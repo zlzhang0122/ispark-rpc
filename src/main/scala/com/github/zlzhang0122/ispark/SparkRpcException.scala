@@ -16,7 +16,7 @@
  */
 package com.github.zlzhang0122.ispark
 
-class RpcException(message: String, cause: Throwable)
+class SparkRpcException(message: String, cause: Throwable)
   extends Exception(message, cause) {
 
   def this(message: String) = this(message, null)
