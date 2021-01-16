@@ -28,7 +28,7 @@ import org.apache.spark.network.util.{ConfigProvider, TransportConf}
   */
 object ISparkRpcTransportConf {
   /**
-    * Specifies an upper bound on the number of Netty threads that Kraps requires by default.
+    * Specifies an upper bound on the number of Netty threads that ISparkRpc requires by default.
     * In practice, only 2-4 cores should be required to transfer roughly 10 Gb/s, and each core
     * that we use will have an initial overhead of roughly 32 MB of off-heap memory, which comes
     * at a premium.
@@ -36,7 +36,7 @@ object ISparkRpcTransportConf {
   private val MAX_DEFAULT_NETTY_THREADS = 8
 
   /**
-    * Utility for creating a [[KrapsTransportConf]] from a [[com.github.zlzhang0122.ispark.ISparkRpcConf]].
+    * Utility for creating a [[ISparkRpcTransportConf]] from a [[com.github.zlzhang0122.ispark.ISparkRpcConf]].
     *
     * @param conf           the [[RpcConf]]
     * @param module         the module name

@@ -235,7 +235,7 @@ class JavaSerializer(conf: ISparkRpcConf) extends Serializer with Externalizable
   override def newInstance(): SerializerInstance = {
     val classLoader = defaultClassLoader.getOrElse(Thread.currentThread.getContextClassLoader)
     val streamFactory: SerializationStreamFactory = classLoader
-      .loadClass(conf.get("spark.rpc.serialization.stream.factory", "net.neoremind.kraps.serializer.JavaSerializationStreamFactory"))
+      .loadClass(conf.get("spark.rpc.serialization.stream.factory", "com.github.zlzhang0122.spark.serializer.JavaSerializationStreamFactory"))
       .newInstance().asInstanceOf[SerializationStreamFactory]
     new JavaSerializerInstance(counterReset, extraDebugInfo, classLoader, streamFactory)
   }

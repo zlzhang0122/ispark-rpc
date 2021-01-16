@@ -21,11 +21,9 @@ import com.github.zlzhang0122.ispark.rpc.{RpcAddress, RpcCallContext}
 
 import scala.concurrent.Promise
 import org.apache.spark.network.client.RpcResponseCallback
-import org.slf4j.LoggerFactory
 
 private[netty] abstract class NettyRpcCallContext(override val senderAddress: RpcAddress)
   extends RpcCallContext {
-  private val log = LoggerFactory.getLogger(classOf[Inbox])
 
   protected def send(message: Any): Unit
 

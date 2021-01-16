@@ -18,7 +18,6 @@
 package com.github.zlzhang0122.ispark.rpc
 
 import java.io.File
-import java.nio.channels.ReadableByteChannel
 
 import com.github.zlzhang0122.ispark.ISparkRpcConf
 import com.github.zlzhang0122.ispark.rpc.netty.NettyRpcEnvFactory
