@@ -30,7 +30,10 @@ import scala.concurrent.{Await, Future}
 import scala.util.Try
 
 /**
-  * Created by xu.zhang on 7/30/17.
+  * server
+  *
+  * @Author: zlzhang0122
+  * @Date: 2021/1/16 4:35 下午
   */
 class SimpleRpcTest extends BaseRpcTest {
 
@@ -156,10 +159,10 @@ class SimpleRpcTest extends BaseRpcTest {
       serverRpcEnv.setupEndpoint(EchoEndpoint.ENDPOINT_NAME, echoEndpoint)
     })
 
-    def runBlock(endPointRef: RpcEndpointRef) = endPointRef.ask[String](Say("bad"))
+    def runBlock(endPointRef: RpcEndpointRef) = endPointRef.askSync[String](Say("bad"))
 
     val thrown = the[ISparkRpcException] thrownBy clientCallNonFuture(EchoEndpoint.ENDPOINT_NAME)(runBlock, assertBlock)
-    thrown.getMessage should equal("Error sending message [message = Say(bad)]")
+    thrown.getMessage should equal("Exception thrown in awaitResult")
   }
 
   "EchoEndpoint" should "ok on all kinds of parameters" in {
@@ -231,7 +234,7 @@ class SimpleRpcTest extends BaseRpcTest {
 
   "EchoEndpoint" should "work on FST serializer" in {
     val _rpcConf = new ISparkRpcConf()
-    _rpcConf.set("spark.rpc.serialization.stream.factory", "net.neoremind.kraps.serializer.FstSerializationStreamFactory")
+    _rpcConf.set("spark.rpc.serialization.stream.factory", "com.github.zlzhang0122.ispark.serailizer.FstSerializationStreamFactory")
 
     runServerAndAwaitTermination({
       val echoEndpoint: RpcEndpoint = new EchoEndpoint(serverRpcEnv)

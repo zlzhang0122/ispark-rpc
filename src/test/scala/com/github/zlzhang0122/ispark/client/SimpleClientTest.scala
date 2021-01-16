@@ -5,6 +5,8 @@ import com.github.zlzhang0122.ispark.rpc.netty.NettyRpcEnvFactory
 import com.github.zlzhang0122.ispark.rpc.{RpcAddress, RpcEndpointRef, RpcEnv, RpcEnvClientConfig}
 import com.github.zlzhang0122.ispark.server.{HelloEndpoint, SayHello}
 
+import scala.concurrent.ExecutionContext.Implicits._
+
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 

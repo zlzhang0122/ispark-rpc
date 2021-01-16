@@ -31,7 +31,10 @@ import scala.concurrent.{Await, Future}
 import scala.util.Try
 
 /**
-  * Created by xu.zhang on 7/30/17.
+  * server
+  *
+  * @Author: zlzhang0122
+  * @Date: 2021/1/16 4:07 下午
   */
 abstract class BaseRpcTest extends FlatSpec with BeforeAndAfter with Matchers {
 

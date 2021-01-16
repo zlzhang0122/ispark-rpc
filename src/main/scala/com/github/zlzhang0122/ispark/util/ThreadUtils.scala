@@ -222,7 +222,7 @@ object ThreadUtils {
         throw e.throwable
       // TimeoutException is thrown in the current thread, so not need to warp the exception.
       case NonFatal(t) if !t.isInstanceOf[TimeoutException] =>
-        throw new ISparkRpcException("Exception thrown in awaitResult: ", t)
+        throw new ISparkRpcException("Exception thrown in awaitResult", t)
     }
   }
   // scalastyle:on awaitresult
